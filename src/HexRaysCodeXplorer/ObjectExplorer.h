@@ -1,26 +1,26 @@
 /*	Copyright (c) 2013-2015
 	REhints <info@rehints.com>
 	All rights reserved.
-	
+
 	==============================================================================
-	
+
 	This file is part of HexRaysCodeXplorer
 
- 	HexRaysCodeXplorer is free software: you can redistribute it and/or modify it
- 	under the terms of the GNU General Public License as published by
- 	the Free Software Foundation, either version 3 of the License, or
- 	(at your option) any later version.
+	HexRaysCodeXplorer is free software: you can redistribute it and/or modify it
+	under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
 
- 	This program is distributed in the hope that it will be useful, but
- 	WITHOUT ANY WARRANTY; without even the implied warranty of
- 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- 	General Public License for more details.
+	This program is distributed in the hope that it will be useful, but
+	WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+	General Public License for more details.
 
- 	You should have received a copy of the GNU General Public License
- 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+	You should have received a copy of the GNU General Public License
+	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 	==============================================================================
-*/
+	*/
 
 #pragma once
 
@@ -51,7 +51,7 @@ struct VTBL_info_t
 	ea_t ea_begin;
 	ea_t ea_end;
 	UINT methods;
-	
+
 };
 
 
@@ -60,7 +60,7 @@ extern qvector <qstring>::iterator vtbl_iter;
 
 
 BOOL get_vtbl_info(ea_t ea_address, VTBL_info_t &vtbl_info);
-inline BOOL is_valid_name(LPCSTR name){ return(*((PDWORD) name) == 0x375F3F3F /*"??_7"*/); }
+inline BOOL is_valid_name(LPCSTR name){ return(*((PDWORD)name) == 0x375F3F3F /*"??_7"*/); }
 void parse_vft_members(LPCTSTR name, ea_t ea_start, ea_t ea_end);
 
 void search_objects(bool bForce = true);
@@ -68,15 +68,25 @@ void search_objects(bool bForce = true);
 
 template <class T> BOOL verify_32_t(ea_t ea_ptr, T &rvalue)
 {
-	if(getFlags(ea_ptr))
+	if (getFlags(ea_ptr))
 	{
-		rvalue = (T) get_32bit(ea_ptr);
+		rvalue = (T)get_32bit(ea_ptr);
 		return(TRUE);
 	}
 
 	return(FALSE);
 }
 
+template <class T> BOOL verify_64_t(ea_t ea_ptr, T &rvalue)
+{
+	if (getFlags(ea_ptr))
+	{
+		rvalue = (T)get_64bit(ea_ptr);
+		return(TRUE);
+	}
+
+	return(FALSE);
+}
 
 // RTTI
 struct RTTI_info_t
@@ -138,5 +148,4 @@ void process_rtti();
 LPCTSTR get_text_disasm(ea_t ea);
 
 bool get_vbtbl_by_ea(ea_t vtbl_addr, VTBL_info_t &vtbl);
-
 tid_t create_vtbl_struct(ea_t vtbl_addr, ea_t vtbl_addr_end, char* vtbl_name, uval_t idx, unsigned int* vtbl_len = NULL);

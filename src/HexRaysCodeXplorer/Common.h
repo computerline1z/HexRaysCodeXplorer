@@ -33,3 +33,4 @@
 #include <loader.hpp>
 #include <kernwin.hpp>
 #include <gdl.hpp>
+#include "fix1.6.h"
